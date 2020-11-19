@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-class CreateCartTable extends Migration
+class CreateReviewTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,14 @@ class CreateCartTable extends Migration
      */
     public function up()
     {
-        Schema::create('bgr_ecommerce_cart', function (Blueprint $table) {
+        Schema::create('bgr_ecommerce_reviews', function (Blueprint $table) {
             $table->id();
-            $table->bigIncrements('id_produk');
-            $table->bigIncrements('id_user');
-            $table->text('catatan');
-            $table->double('qty');
+            $table->unsignedBigInteger('id_produk');
+            $table->unsignedBigInteger('id_user');
+            $table->double('rating');
+            $table->text('keterangan');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // DB::unprepared(file_get_contents(__DIR__.'/migration/db/kotas.sql'));
@@ -31,6 +32,6 @@ class CreateCartTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bgr_ecommerce_cart');
+        Schema::dropIfExists('bgr_ecommerce_reviews');
     }
 }

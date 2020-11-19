@@ -16,6 +16,7 @@ class CreateProvinsisTable extends Migration
             $table->bigIncrements('province_id');
             $table->string('province');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // $provinsi        = base_path('db/provinsis.sql');

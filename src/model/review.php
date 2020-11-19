@@ -2,8 +2,11 @@
 
 namespace Bageur\ecommerce\model;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 class review extends Model
 {
+  use SoftDeletes;
+  
     protected $table    = 'bgr_ecommerce_review';
 
     public function data_user()
