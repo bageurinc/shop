@@ -21,6 +21,7 @@ class Ecommerce extends Migration
             $table->string('nama');
             $table->string('status')->default('aktif');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('bgr_produk', function (Blueprint $table) {
@@ -31,7 +32,8 @@ class Ecommerce extends Migration
             $table->text('nama_seo');
             $table->double('berat');
             $table->double('stok')->nullable();
-            $table->double('harga')->nullable();
+            $table->double('harga_jual')->nullable();
+            $table->double('harga_modal')->nullable();
             $table->text('keterangan');
             $table->json('variant')->nullable();
             $table->boolean('preorder')->default(false);
@@ -42,6 +44,7 @@ class Ecommerce extends Migration
             $table->text('gambar5')->nullable();
             $table->string('status')->default('aktif');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::table('users', function (Blueprint $table) {
@@ -49,6 +52,7 @@ class Ecommerce extends Migration
             $table->double('hp')->after('email');
             $table->text('alamat')->after('email')->nullable();
             $table->enum('jenis_kelamin',['pria','wanita'])->after('email')->nullable();
+            $table->softDeletes();
         });
 
         $user = new User;

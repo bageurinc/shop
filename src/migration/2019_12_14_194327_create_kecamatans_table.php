@@ -17,6 +17,7 @@ class CreateKecamatansTable extends Migration
             $table->unsignedBigInteger('city_id');
             $table->string('subdistrict_name');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // DB::unprepared(file_get_contents(__DIR__.'/migration/db/kecamatans.sql'));

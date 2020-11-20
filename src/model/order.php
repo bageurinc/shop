@@ -2,10 +2,14 @@
 
 namespace Bageur\ecommerce\model;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 class order extends Model
 {
+  use SoftDeletes;
+
     protected $table    = 'bgr_order';
     protected $appends  = ['data_produk','avatar','total'];
+    
    	public function getDataProdukAttribute() {
        return json_decode($this->produk,true);
     }   	

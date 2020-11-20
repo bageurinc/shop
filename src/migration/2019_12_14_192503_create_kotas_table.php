@@ -19,6 +19,7 @@ class CreateKotasTable extends Migration
             $table->string('city_name');
             $table->double('postal_code');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // DB::unprepared(file_get_contents(__DIR__.'/migration/db/kotas.sql'));

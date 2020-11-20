@@ -30,6 +30,7 @@ class Order extends Migration
             $table->json('produk');
             $table->string('status')->default('unpaid');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
