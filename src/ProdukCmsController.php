@@ -21,24 +21,24 @@ class ProdukCmsController extends Controller
         $rules    	= [
                         'kategori'            => 'required',
                         'nama'                => 'required',
-                        'berat'               => 'required|numeric|min:10',
+                        'berat'               => 'required|numeric|min:100',
                         'keterangan'          => 'required',
-                        'gambar'              => 'required|mimes:jpg,jpeg,png|max:1000',
-                        'gambar_2'            => 'nullable|mimes:jpg,jpeg,png|max:1000',
+                        // 'gambar'              => 'required|mimes:jpg,jpeg,png|max:1000',
+                        // 'gambar_2'            => 'nullable|mimes:jpg,jpeg,png|max:1000',
                     ];
         if(empty($request->variant)){
-            $rules ['harga']                  = 'required|numeric|min:100';
+            $rules ['harga_jual']                  = 'required|numeric|min:100';
         }else{
             $rules ['variant.*.type']           = 'required';
             $rules ['variant.*.list']           = 'required';
             $rules ['variant.*.list.*.nama']    = 'required';
             $rules ['variant.*.list.*.harga']   = 'required|numeric|min:10';
             // $rules ['variant.list.*.stok']   = 'required|numeric';
-        }   
+        }
         if(!empty($request->preorder)){
             $rules ['preorder.hari']           = 'required|numeric';
             $rules ['preorder.waktu']           = 'required';
-        }            
+        }
         $messages 	= [];
         $attributes = [];
 
@@ -48,24 +48,29 @@ class ProdukCmsController extends Controller
             return response(['status' => false ,'error'    =>  $errors->all()], 200);
         }else{
             $produk              		= new produk;
-            $upload                     = Helper::go($request->file('gambar'),'ecommerce');
+            // $upload                     = Helper::go($request->file('gambar'),'ecommerce');
             $produk->id_kategori        = $request->kategori;
-            $produk->id_user            = $request->user;
+            // $produk->id_user            = $request->user;
             $produk->nama               = $request->nama;
             $produk->nama_seo           = Str::slug($request->nama);
             if(!empty($request->variant)){
                 $produk->variant        = json_encode($request->variant);
             }else{
-                $produk->harga          = $request->harga;
+                $produk->harga_jual          = $request->harga_jual;
             }
             if(!empty($request->preorder)){
                 $produk->preorder        = json_encode($request->preorder);
             }
             $produk->berat              = $request->berat;
             $produk->keterangan         = $request->keterangan;
-            $produk->gambar1            = $upload;
+            // $produk->gambar1            = $upload;
+            if($request->file != null){
+                $upload                = Helper::avatarbase64($request->file,'produk');
+	           	$produk->gambar1	           = $upload['up'];
+                $produk->gambar_path           = $upload['path'];
+       		}
             $produk->save();
-            return response(['status' => true ,'text'    => 'has input'], 200); 
+            return response(['status' => true ,'text'    => 'has input'], 200);
         }
     }
 
@@ -77,7 +82,7 @@ class ProdukCmsController extends Controller
      */
     public function show($id)
     {
-        return slider::findOrFail($id);
+        return produk::findOrFail($id);
     }
 
     /**
@@ -89,11 +94,28 @@ class ProdukCmsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rules      = [];
-        if($request->file('gambar') != null){
-            $rules['gambar'] = 'mimes:jpg,jpeg,png|max:2000';
-        }  
-        $messages   = [];
+        $rules    	= [
+                        'kategori'            => 'required',
+                        'nama'                => 'required',
+                        'berat'               => 'required|numeric|min:1',
+                        'keterangan'          => 'required',
+                        // 'gambar'              => 'required|mimes:jpg,jpeg,png|max:1000',
+                        // 'gambar_2'            => 'nullable|mimes:jpg,jpeg,png|max:1000',
+                    ];
+        if(empty($request->variant)){
+            $rules ['harga_jual']                  = 'required|numeric|min:100';
+        }else{
+            $rules ['variant.*.type']           = 'required';
+            $rules ['variant.*.list']           = 'required';
+            $rules ['variant.*.list.*.nama']    = 'required';
+            $rules ['variant.*.list.*.harga']   = 'required|numeric|min:10';
+            // $rules ['variant.list.*.stok']   = 'required|numeric';
+        }
+        if(!empty($request->preorder)){
+            $rules ['preorder.hari']           = 'required|numeric';
+            $rules ['preorder.waktu']           = 'required';
+        }
+        $messages 	= [];
         $attributes = [];
 
         $validator = Validator::make($request->all(), $rules,$messages,$attributes);
@@ -101,14 +123,24 @@ class ProdukCmsController extends Controller
             $errors = $validator->errors();
             return response(['status' => false ,'error'    =>  $errors->all()], 200);
         }else{
-            $slider                     = slider::findOrFail($id);
-            $slider->caption            = $request->caption;
-            if($request->file('gambar') != null){
-                $upload                     = UploadProcessor::go($request->file('gambar'),'slider');
-                $slider->gambar             = $upload;
+            $produk                     = produk::findOrFail($id);
+            $produk->id_kategori        = $request->kategori;
+            // $produk->id_user            = $request->user;
+            $produk->nama               = $request->nama;
+            $produk->nama_seo           = Str::slug($request->nama);
+            if(!empty($request->variant)){
+                $produk->variant        = json_encode($request->variant);
+            }else{
+                $produk->harga_jual          = $request->harga_jual;
             }
-            $slider->save();
-            return response(['status' => true ,'text'    => 'has input'], 200); 
+            if(!empty($request->preorder)){
+                $produk->preorder        = json_encode($request->preorder);
+            }
+            $produk->berat              = $request->berat;
+            $produk->keterangan         = $request->keterangan;
+            $produk->gambar1            = $upload;
+            $produk->save();
+            return response(['status' => true ,'text'    => 'has input'], 200);
         }
     }
 
@@ -122,7 +154,7 @@ class ProdukCmsController extends Controller
     {
           $delete = slider::findOrFail($id);
           $delete->delete();
-          return response(['status' => true ,'text'    => 'has deleted'], 200); 
+          return response(['status' => true ,'text'    => 'has deleted'], 200);
     }
 
 }

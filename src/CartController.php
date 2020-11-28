@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Bageur\Ecommerce;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Bageur\Ecommerce\model\cart;

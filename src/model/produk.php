@@ -4,12 +4,14 @@ namespace Bageur\ecommerce\model;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use Bageur\Ecommerce\Processors\Helper;
+
 class produk extends Model
 {
     protected $table    = 'bgr_produk';
-    protected $appends  = ['data_harga','data_variant','data_preorder','data_gambar','satu_gambar','publish'];
+    protected $appends  = ['avatar','data_harga','data_variant','data_preorder','data_gambar','satu_gambar','publish'];
     protected $hidden   = [
-        'id_user', 'variant', 'harga', 'preorder','gambar1','gambar2','gambar3','gambar4','gambar5','created_at','updated_at'
+        'id_user', 'variant', 'harga', 'preorder','gambar2','gambar3','gambar4','gambar5','created_at','updated_at'
     ];
     public function getPublishAttribute() {
         if (empty($this->created_at)) {
@@ -17,9 +19,17 @@ class produk extends Model
         }
         return $this->created_at->toFormattedDateString();
     }
+    public function getAvatarAttribute()
+    {
+            return Helper::get($this->nama,$this->gambar1,$this->gambar_path);
+    }
     public function user()
     {
       return $this->hasOne('App\User','id','id_user');
+    }
+    public function kategori()
+    {
+         return $this->hasOne('Bageur\Ecommerce\model\kategori','id','id_kategori');
     }
     public function getDataHargaAttribute() {
        $data = json_decode($this->variant);
@@ -54,15 +64,15 @@ class produk extends Model
        return json_decode($this->preorder);
     }
     public function getSatuGambarAttribute() {
-      return url('storage/ecommerce/'.$this->gambar1);
+      return url('storage/bageur.id/produk/'.$this->gambar1);
     }
     public function getDataGambarAttribute() {
       $data = [];
-      array_push($data, url('storage/ecommerce/'.$this->gambar1));
-      if(!empty($this->gambar2)){array_push($data, url('storage/ecommerce/'.$this->gambar2));}
-      if(!empty($this->gambar3)){array_push($data, url('storage/ecommerce/'.$this->gambar3));}
-      if(!empty($this->gambar4)){array_push($data, url('storage/ecommerce/'.$this->gambar4));}
-      if(!empty($this->gambar5)){array_push($data, url('storage/ecommerce/'.$this->gambar5));}
+      array_push($data, url('storage/bageur.id/produk/'.$this->gambar1));
+      if(!empty($this->gambar2)){array_push($data, url('storage/bageur.id/produk/'.$this->gambar2));}
+      if(!empty($this->gambar3)){array_push($data, url('storage/bageur.id/produk/'.$this->gambar3));}
+      if(!empty($this->gambar4)){array_push($data, url('storage/bageur.id/produk/'.$this->gambar4));}
+      if(!empty($this->gambar5)){array_push($data, url('storage/bageur.id/produk/'.$this->gambar5));}
       return $data;
     }
     public function scopeCekproduk($query,$user,$nama_seo){
@@ -88,7 +98,7 @@ class produk extends Model
             }else{
                 $searchqry .= "OR lower($value) like '%".strtolower($request->search)."%'";
             }
-        } 
+        }
         $searchqry .= ")";
         if(isset($request->sort_by)){
             if(!empty(@$request->sort_by)){
@@ -117,4 +127,5 @@ class produk extends Model
         }
 
     }
+
 }
