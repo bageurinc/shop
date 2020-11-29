@@ -6,20 +6,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class review extends Model
 {
   use SoftDeletes;
-  
-    protected $table    = 'bgr_ecommerce_review';
+
+    protected $table    = 'bgr_ecommerce_reviews';
 
     public function data_user()
     {
       return $this->hasOne('App\User','id','id_user');
 
     }
-
-    public function data_produk()
+    public function produk()
     {
-      return $this->hasOne('Bageur\Ecommerce\model\produk','id','id_produk');
+      return $this->belongsTo('Bageur\Ecommerce\model\produk');
     }
-
     public function scopeDatatable($query,$request,$page=12)
     {
 
@@ -33,7 +31,7 @@ class review extends Model
             }else{
                 $searchqry .= "OR lower($value) like '%".strtolower($request->search)."%'";
             }
-        } 
+        }
         $searchqry .= ")";
         if(isset($request->sort_by)){
             if(!empty(@$request->sort_by)){

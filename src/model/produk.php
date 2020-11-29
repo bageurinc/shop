@@ -13,6 +13,8 @@ class produk extends Model
     protected $hidden   = [
         'id_user', 'variant', 'harga', 'preorder','gambar2','gambar3','gambar4','gambar5','created_at','updated_at'
     ];
+
+
     public function getPublishAttribute() {
         if (empty($this->created_at)) {
             return null;
@@ -23,13 +25,29 @@ class produk extends Model
     {
             return Helper::get($this->nama,$this->gambar1,$this->gambar_path);
     }
-    public function user()
+    public function umkm()
     {
-      return $this->hasOne('App\User','id','id_user');
+      return $this->belongsTo('App\model\umkm');
     }
     public function kategori()
     {
          return $this->hasOne('Bageur\Ecommerce\model\kategori','id','id_kategori');
+    }
+    public function review()
+    {
+      return $this->hasMany('Bageur\Ecommerce\model\review');
+    }
+    public function bintang()
+    {
+        $count = $this->review()->count();
+        if(empty($count)){
+            return 0;
+        }
+        $starCountSum=$this->review()->sum('rating');
+        $average=$starCountSum/ $count;
+
+       return $average;
+
     }
     public function getDataHargaAttribute() {
        $data = json_decode($this->variant);
