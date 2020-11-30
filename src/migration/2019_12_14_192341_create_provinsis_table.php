@@ -13,7 +13,7 @@ class CreateProvinsisTable extends Migration
     public function up()
     {
         Schema::create('bgr_provinsis', function (Blueprint $table) {
-            $table->bigIncrements('province_id');
+            $table->bigIncrements('id');
             $table->string('province');
             $table->timestamps();
             $table->softDeletes();

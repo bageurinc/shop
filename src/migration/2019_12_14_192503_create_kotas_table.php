@@ -13,7 +13,7 @@ class CreateKotasTable extends Migration
     public function up()
     {
         Schema::create('bgr_kotas', function (Blueprint $table) {
-            $table->bigIncrements('city_id');
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('province_id');
             $table->string('type');
             $table->string('city_name');
