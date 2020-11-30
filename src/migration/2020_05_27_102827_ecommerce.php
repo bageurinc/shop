@@ -16,8 +16,16 @@ class Ecommerce extends Migration
     {
         Schema::create('bgr_kategori_produk', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_sub')->index();
             $table->unsignedBigInteger('id_user')->index();
+            $table->string('nama');
+            $table->string('status')->default('aktif');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('bgr_sub_kategori_produk', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_parent');
             $table->string('nama');
             $table->string('status')->default('aktif');
             $table->timestamps();
@@ -27,7 +35,7 @@ class Ecommerce extends Migration
         Schema::create('bgr_produk', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_kategori')->index();
-            $table->unsignedBigInteger('id_user')->index();
+            $table->unsignedBigInteger('umkm_id')->index();
             $table->string('nama');
             $table->text('nama_seo');
             $table->double('berat');
@@ -42,6 +50,7 @@ class Ecommerce extends Migration
             $table->text('gambar3')->nullable();
             $table->text('gambar4')->nullable();
             $table->text('gambar5')->nullable();
+            $table->text('gambar_path');
             $table->string('status')->default('aktif');
             $table->timestamps();
             $table->softDeletes();

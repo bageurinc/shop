@@ -16,6 +16,8 @@ class CreateReviewTable extends Migration
             $table->id();
             $table->unsignedBigInteger('id_produk');
             $table->unsignedBigInteger('id_user');
+            $table->string('nama');
+            $table->string('email');
             $table->double('rating');
             $table->text('keterangan');
             $table->timestamps();

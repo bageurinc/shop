@@ -50,7 +50,8 @@ class ProdukCmsController extends Controller
             $produk              		= new produk;
             // $upload                     = Helper::go($request->file('gambar'),'ecommerce');
             $produk->id_kategori        = $request->kategori;
-            // $produk->id_user            = $request->user;
+            $produk->id_sub_kategori    = $request->subkategori;
+            $produk->umkm_id            = $request->umkm;
             $produk->nama               = $request->nama;
             $produk->nama_seo           = Str::slug($request->nama);
             if(!empty($request->variant)){
@@ -69,7 +70,19 @@ class ProdukCmsController extends Controller
 	           	$produk->gambar1	           = $upload['up'];
                 $produk->gambar_path           = $upload['path'];
        		}
-            $produk->save();
+            if($request->file2 != null){
+                $upload                   = Helper::avatarbase64($request->file2,'produk');
+                $produk->gambar2          = $upload['up'];
+            }
+            if($request->file3 != null){
+                $upload                   = Helper::avatarbase64($request->file3,'produk');
+                $produk->gambar3          = $upload['up'];
+            }
+            if($request->file4 != null){
+                $upload                   = Helper::avatarbase64($request->file4,'produk');
+                $produk->gambar4          = $upload['up'];
+            }
+               $produk->save();
             return response(['status' => true ,'text'    => 'has input'], 200);
         }
     }
@@ -125,7 +138,8 @@ class ProdukCmsController extends Controller
         }else{
             $produk                     = produk::findOrFail($id);
             $produk->id_kategori        = $request->kategori;
-            // $produk->id_user            = $request->user;
+            $produk->id_sub_kategori    = $request->subkategori;
+            $produk->umkm_id            = $request->umkm;
             $produk->nama               = $request->nama;
             $produk->nama_seo           = Str::slug($request->nama);
             if(!empty($request->variant)){
@@ -152,7 +166,7 @@ class ProdukCmsController extends Controller
      */
     public function destroy($id)
     {
-          $delete = slider::findOrFail($id);
+          $delete = produk::findOrFail($id);
           $delete->delete();
           return response(['status' => true ,'text'    => 'has deleted'], 200);
     }
