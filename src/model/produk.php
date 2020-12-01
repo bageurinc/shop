@@ -9,9 +9,13 @@ use Bageur\Ecommerce\Processors\Helper;
 class produk extends Model
 {
     protected $table    = 'bgr_produk';
-    protected $appends  = ['avatar','data_harga','data_variant','data_preorder','data_gambar','satu_gambar','publish'];
+    protected $appends  = ['bintang','avatar','data_harga','data_variant','data_preorder','data_gambar','satu_gambar','publish'];
     protected $hidden   = [
+<<<<<<< Updated upstream
         'id_user', 'variant', 'harga', 'preorder','gambar2','gambar3','gambar4','gambar5','created_at','updated_at'
+=======
+        'id_user', 'harga', 'preorder','created_at','updated_at'
+>>>>>>> Stashed changes
     ];
 
 
@@ -37,7 +41,7 @@ class produk extends Model
     {
       return $this->hasMany('Bageur\Ecommerce\model\review');
     }
-    public function bintang()
+    public function getbintangAttribute()
     {
         $count = $this->review()->count();
         if(empty($count)){
@@ -92,6 +96,49 @@ class produk extends Model
       if(!empty($this->gambar4)){array_push($data, url('storage/bageur.id/produk/'.$this->gambar4));}
       if(!empty($this->gambar5)){array_push($data, url('storage/bageur.id/produk/'.$this->gambar5));}
       return $data;
+    }
+    public function scopeData($query, $request){
+        if($request->nama){
+            $query->where('nama', 'like', '%'.$request->nama.'%');
+        }
+        if($request->id_provinsi){
+            $query->whereHas('umkm', function($query) use ($request){
+                $query->where('id_provinsi', $request->id_provinsi);
+            });
+        }
+        if($request->id_kota){
+            $query->whereHas('umkm', function($query) use ($request){
+                $query->where('id_kota', $request->id_kota);
+            });
+        }
+
+        return $query;
+    }
+    public function scopeFilter($query, $request){
+
+        if($request->id_kategori){
+            $query->where('id_kategori', $request->id_kategori);
+        }
+        if($request->id_provinsi){
+            $query->whereHas('umkm', function($query) use ($request){
+                $query->where('id_provinsi', $request->id_provinsi);
+            });
+        }
+        if($request->bintang){
+            $query->whereHas('review', function($query) use ($request){
+                $query->where('rating', $request->bintang);
+            });
+        }
+        if($request->harga1){
+            $query->where('harga_jual', '>=' ,$request->harga1);
+        }
+        if($request->harga2){
+            $query->where('harga_jual', '<=' ,$request->harga2);
+        }
+        if($request->variant){
+            $query->where('variant->nama', $request->variant);
+        }
+        return $query;
     }
     public function scopeCekproduk($query,$user,$nama_seo){
         $usercek = User::where('username','sesaat');

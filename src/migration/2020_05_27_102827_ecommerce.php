@@ -19,6 +19,8 @@ class Ecommerce extends Migration
             $table->unsignedBigInteger('id_user')->index();
             $table->string('nama');
             $table->string('status')->default('aktif');
+            $table->string('gambar')->nullable();
+            $table->string('gambar_path')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
