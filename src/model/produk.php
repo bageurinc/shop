@@ -11,7 +11,7 @@ class produk extends Model
     protected $table    = 'bgr_produk';
     protected $appends  = ['avatar','data_harga','data_variant','data_preorder','data_gambar','satu_gambar','publish'];
     protected $hidden   = [
-        'id_user', 'variant', 'harga', 'preorder','gambar2','gambar3','gambar4','gambar5','created_at','updated_at'
+        'id_user', 'variant', 'harga', 'preorder','created_at','updated_at'
     ];
 
 

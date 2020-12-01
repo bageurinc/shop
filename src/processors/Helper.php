@@ -14,7 +14,7 @@ class Helper {
      {
        $path       = 'bageur.id/'.$loc;
        \Storage::makeDirectory('public/'.$path);
-       $namaBerkas = 'avatar'.date('ymdhis').'.png';
+       $namaBerkas = 'avatar'.date('ymdhisu').'.png';
        $image = \Image::make($data);
        $image->save(storage_path('app/public/'.$path.'/'.$namaBerkas));
        $arr = ['up' => $namaBerkas , 'path' => $path];

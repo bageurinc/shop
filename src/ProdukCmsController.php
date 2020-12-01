@@ -19,21 +19,19 @@ class ProdukCmsController extends Controller
     public function store(Request $request)
     {
         $rules    	= [
-                        'kategori'            => 'required',
-                        'nama'                => 'required',
-                        'berat'               => 'required|numeric|min:100',
-                        'keterangan'          => 'required',
-                        // 'gambar'              => 'required|mimes:jpg,jpeg,png|max:1000',
-                        // 'gambar_2'            => 'nullable|mimes:jpg,jpeg,png|max:1000',
+                        // 'kategori'            => 'required',
+                        // 'nama'                => 'required',
+                        // 'berat'               => 'required|numeric|min:100',
+                        // 'keterangan'          => 'required',
+                        'file'		     	=> 'nullable|base64image|base64max:1000',
+
                     ];
         if(empty($request->variant)){
             $rules ['harga_jual']                  = 'required|numeric|min:100';
         }else{
-            $rules ['variant.*.type']           = 'required';
-            $rules ['variant.*.list']           = 'required';
-            $rules ['variant.*.list.*.nama']    = 'required';
-            $rules ['variant.*.list.*.harga']   = 'required|numeric|min:10';
-            // $rules ['variant.list.*.stok']   = 'required|numeric';
+            $rules ['variant.*.nama']    = 'required';
+            $rules ['variant.*.harga']   = 'required|numeric|min:10';
+            $rules ['variant.*.stok']   = 'required|numeric';
         }
         if(!empty($request->preorder)){
             $rules ['preorder.hari']           = 'required|numeric';
@@ -48,7 +46,6 @@ class ProdukCmsController extends Controller
             return response(['status' => false ,'error'    =>  $errors->all()], 200);
         }else{
             $produk              		= new produk;
-            // $upload                     = Helper::go($request->file('gambar'),'ecommerce');
             $produk->id_kategori        = $request->kategori;
             $produk->id_sub_kategori    = $request->subkategori;
             $produk->umkm_id            = $request->umkm;
@@ -71,17 +68,23 @@ class ProdukCmsController extends Controller
                 $produk->gambar_path           = $upload['path'];
        		}
             if($request->file2 != null){
-                $upload                   = Helper::avatarbase64($request->file2,'produk');
+                $upload                   = Helper::go($request->file2,'produk');
                 $produk->gambar2          = $upload['up'];
             }
             if($request->file3 != null){
-                $upload                   = Helper::avatarbase64($request->file3,'produk');
+                $upload                   = Helper::go($request->file3,'produk');
                 $produk->gambar3          = $upload['up'];
             }
             if($request->file4 != null){
-                $upload                   = Helper::avatarbase64($request->file4,'produk');
+                $upload                   = Helper::go($request->file4,'produk');
                 $produk->gambar4          = $upload['up'];
             }
+            if($request->file5 != null){
+                $upload                   = Helper::go($request->file4,'produk');
+                $produk->gambar5          = $upload['up'];
+            }
+            return $produk;
+
                $produk->save();
             return response(['status' => true ,'text'    => 'has input'], 200);
         }
@@ -122,7 +125,7 @@ class ProdukCmsController extends Controller
             $rules ['variant.*.list']           = 'required';
             $rules ['variant.*.list.*.nama']    = 'required';
             $rules ['variant.*.list.*.harga']   = 'required|numeric|min:10';
-            // $rules ['variant.list.*.stok']   = 'required|numeric';
+            $rules ['variant.list.*.stok']   = 'required|numeric';
         }
         if(!empty($request->preorder)){
             $rules ['preorder.hari']           = 'required|numeric';
@@ -152,7 +155,28 @@ class ProdukCmsController extends Controller
             }
             $produk->berat              = $request->berat;
             $produk->keterangan         = $request->keterangan;
-            $produk->gambar1            = $upload;
+            // $produk->gambar1            = $upload;
+            if($request->file != null){
+                $upload                = Helper::avatarbase64($request->file,'produk');
+	           	$produk->gambar1	           = $upload['up'];
+                $produk->gambar_path           = $upload['path'];
+       		}
+            if($request->file2 != null){
+                $upload                   = Helper::avatarbase64($request->file2,'produk');
+                $produk->gambar2          = $upload['up'];
+            }
+            if($request->file3 != null){
+                $upload                   = Helper::avatarbase64($request->file3,'produk');
+                $produk->gambar3          = $upload['up'];
+            }
+            if($request->file4 != null){
+                $upload                   = Helper::avatarbase64($request->file4,'produk');
+                $produk->gambar4          = $upload['up'];
+            }
+            if($request->file5 != null){
+                $upload                   = Helper::avatarbase64($request->file4,'produk');
+                $produk->gambar5          = $upload['up'];
+            }
             $produk->save();
             return response(['status' => true ,'text'    => 'has input'], 200);
         }
