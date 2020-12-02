@@ -3,12 +3,18 @@
 namespace Bageur\ecommerce\model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Bageur\Ecommerce\Processors\Helper;
 class kategori extends Model
 {
   use SoftDeletes;
 
     protected $table    = 'bgr_kategori_produk';
+    protected $appends = ['avatar'];
 
+    public function getAvatarAttribute()
+    {
+            return Helper::get($this->nama,$this->gambar,$this->gambar_path);
+    }
     public function scopeDatatable($query,$request,$page=12)
     {
 
