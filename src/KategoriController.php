@@ -5,6 +5,7 @@ namespace Bageur\Ecommerce;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Bageur\Ecommerce\processors\Helper;
 use Bageur\Ecommerce\model\kategori;
 use Validator;
 
@@ -45,10 +46,14 @@ class KategoriController extends Controller
             return response(['status' => false ,'error'    =>  $errors->all()], 200);
         }else{
         $kategori =  new kategori;
-        $kategori->id_sub    = $request->id_sub;
         $kategori->id_user   = Auth::id();
         $kategori->nama      = $request->nama;
         $kategori->status    = $request->status;
+        if($request->file != null){
+            $upload                = Helper::avatarbase64($request->file,'kategori');
+            $kategori->gambar	           = $upload['up'];
+            $kategori->gambar_path           = $upload['path'];
+           }
         $kategori->save();
 
         return response(['status' => true ,'text'    => 'has input'], 200);
@@ -80,7 +85,7 @@ class KategoriController extends Controller
         $rules    	= [
                         'nama'                  => 'required',
                         'status'                => 'required',
-
+                        'file'		     	=> 'nullable|base64image|base64max:1000',
                     ];
 
         $messages 	= [];
@@ -92,10 +97,14 @@ class KategoriController extends Controller
             return response(['status' => false ,'error'    =>  $errors->all()], 200);
         }else{
         $kategori =  kategori::findorFail($id);
-        $kategori->id_sub    = $request->id_sub;
         $kategori->id_user   = Auth::id();
         $kategori->nama      = $request->nama;
         $kategori->status    = $request->status;
+        if($request->file != null){
+            $upload                = Helper::avatarbase64($request->file,'kategori');
+            $kategori->gambar	           = $upload['up'];
+            $kategori->gambar_path           = $upload['path'];
+           }
         $kategori->save();
 
         return response(['status' => true ,'text'    => 'has update'], 200);

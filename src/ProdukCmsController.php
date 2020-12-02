@@ -19,14 +19,23 @@ class ProdukCmsController extends Controller
     public function store(Request $request)
     {
         $rules    	= [
+<<<<<<< Updated upstream
                         'kategori'            => 'required',
                         'nama'                => 'required',
                         'berat'               => 'required|numeric|min:100',
                         'keterangan'          => 'required',
                         // 'gambar'              => 'required|mimes:jpg,jpeg,png|max:1000',
                         // 'gambar_2'            => 'nullable|mimes:jpg,jpeg,png|max:1000',
+=======
+                        'id_kategori'            => 'required',
+                        'nama'                => 'required',
+                        'berat'               => 'required|numeric|min:100',
+                        'keterangan'          => 'required',
+                        'file'		     	=> 'nullable|base64image|base64max:1000',
+
+>>>>>>> Stashed changes
                     ];
-        if(empty($request->variant)){
+        if(!empty($request->harga_jual)){
             $rules ['harga_jual']                  = 'required|numeric|min:100';
         }else{
             $rules ['variant.*.type']           = 'required';
@@ -48,16 +57,22 @@ class ProdukCmsController extends Controller
             return response(['status' => false ,'error'    =>  $errors->all()], 200);
         }else{
             $produk              		= new produk;
+<<<<<<< Updated upstream
             // $upload                     = Helper::go($request->file('gambar'),'ecommerce');
             $produk->id_kategori        = $request->kategori;
             $produk->id_sub_kategori    = $request->subkategori;
             $produk->umkm_id            = $request->umkm;
+=======
+            $produk->id_kategori        = $request->id_kategori;
+            $produk->id_sub_kategori    = $request->id_sub_kategori;
+            $produk->umkm_id            = $request->umkm_id;
+>>>>>>> Stashed changes
             $produk->nama               = $request->nama;
             $produk->nama_seo           = Str::slug($request->nama);
-            if(!empty($request->variant)){
-                $produk->variant        = json_encode($request->variant);
-            }else{
+            if(!empty($request->harga_jual)){
                 $produk->harga_jual          = $request->harga_jual;
+            }else{
+                $produk->variant        = json_encode($request->variant);
             }
             if(!empty($request->preorder)){
                 $produk->preorder        = json_encode($request->preorder);
@@ -82,6 +97,14 @@ class ProdukCmsController extends Controller
                 $upload                   = Helper::avatarbase64($request->file4,'produk');
                 $produk->gambar4          = $upload['up'];
             }
+<<<<<<< Updated upstream
+=======
+            if($request->file5 != null){
+                $upload                   = Helper::avatarbase64($request->file4,'produk');
+                $produk->gambar5          = $upload['up'];
+            }
+
+>>>>>>> Stashed changes
                $produk->save();
             return response(['status' => true ,'text'    => 'has input'], 200);
         }
@@ -108,21 +131,27 @@ class ProdukCmsController extends Controller
     public function update(Request $request, $id)
     {
         $rules    	= [
-                        'kategori'            => 'required',
+                        'id_kategori'            => 'required',
                         'nama'                => 'required',
-                        'berat'               => 'required|numeric|min:1',
+                        'berat'               => 'required|numeric|min:100',
                         'keterangan'          => 'required',
-                        // 'gambar'              => 'required|mimes:jpg,jpeg,png|max:1000',
-                        // 'gambar_2'            => 'nullable|mimes:jpg,jpeg,png|max:1000',
+                        'file'		     	=> 'nullable|base64image|base64max:1000',
+
                     ];
-        if(empty($request->variant)){
+        if(!empty($request->harga_jual)){
             $rules ['harga_jual']                  = 'required|numeric|min:100';
         }else{
+<<<<<<< Updated upstream
             $rules ['variant.*.type']           = 'required';
             $rules ['variant.*.list']           = 'required';
             $rules ['variant.*.list.*.nama']    = 'required';
             $rules ['variant.*.list.*.harga']   = 'required|numeric|min:10';
             // $rules ['variant.list.*.stok']   = 'required|numeric';
+=======
+            $rules ['variant.*.nama']    = 'required';
+            $rules ['variant.*.harga']   = 'required|numeric|min:10';
+            $rules ['variant.*.stok']   = 'required|numeric';
+>>>>>>> Stashed changes
         }
         if(!empty($request->preorder)){
             $rules ['preorder.hari']           = 'required|numeric';
@@ -137,15 +166,15 @@ class ProdukCmsController extends Controller
             return response(['status' => false ,'error'    =>  $errors->all()], 200);
         }else{
             $produk                     = produk::findOrFail($id);
-            $produk->id_kategori        = $request->kategori;
-            $produk->id_sub_kategori    = $request->subkategori;
-            $produk->umkm_id            = $request->umkm;
+            $produk->id_kategori        = $request->id_kategori;
+            $produk->id_sub_kategori    = $request->id_sub_kategori;
+            $produk->umkm_id            = $request->umkm_id;
             $produk->nama               = $request->nama;
             $produk->nama_seo           = Str::slug($request->nama);
-            if(!empty($request->variant)){
-                $produk->variant        = json_encode($request->variant);
-            }else{
+            if(!empty($request->harga_jual)){
                 $produk->harga_jual          = $request->harga_jual;
+            }else{
+                $produk->variant        = json_encode($request->variant);
             }
             if(!empty($request->preorder)){
                 $produk->preorder        = json_encode($request->preorder);

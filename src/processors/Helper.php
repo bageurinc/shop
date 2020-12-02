@@ -14,7 +14,11 @@ class Helper {
      {
        $path       = 'bageur.id/'.$loc;
        \Storage::makeDirectory('public/'.$path);
+<<<<<<< Updated upstream
        $namaBerkas = 'avatar'.date('ymdhis').'.png';
+=======
+       $namaBerkas = 'avatar'.rand(000,999).'.png';
+>>>>>>> Stashed changes
        $image = \Image::make($data);
        $image->save(storage_path('app/public/'.$path.'/'.$namaBerkas));
        $arr = ['up' => $namaBerkas , 'path' => $path];
