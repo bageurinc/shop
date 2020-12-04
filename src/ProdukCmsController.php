@@ -62,27 +62,27 @@ class ProdukCmsController extends Controller
             $produk->berat              = $request->berat;
             $produk->keterangan         = $request->keterangan;
             // $produk->gambar1            = $upload;
-            if($request->file != null){
-                $upload                = Helper::avatarbase64($request->file,'produk');
-	           	$produk->gambar1	           = $upload['up'];
-                $produk->gambar_path           = $upload['path'];
-       		}
-            if($request->file2 != null){
-                $upload                   = Helper::avatarbase64($request->file2,'produk');
-                $produk->gambar2          = $upload['up'];
-            }
-            if($request->file3 != null){
-                $upload                   = Helper::avatarbase64($request->file3,'produk');
-                $produk->gambar3          = $upload['up'];
-            }
-            if($request->file4 != null){
-                $upload                   = Helper::avatarbase64($request->file4,'produk');
-                $produk->gambar4          = $upload['up'];
-            }
-            if($request->file5 != null){
-                $upload                   = Helper::avatarbase64($request->file4,'produk');
-                $produk->gambar5          = $upload['up'];
-            }
+            // if($request->file != null){
+            //     $upload                = Helper::avatarbase64($request->file,'produk');
+	        //    	$produk->gambar1	           = $upload['up'];
+            //     $produk->gambar_path           = $upload['path'];
+       		// }
+            // if($request->file2 != null){
+            //     $upload                   = Helper::avatarbase64($request->file2,'produk');
+            //     $produk->gambar2          = $upload['up'];
+            // }
+            // if($request->file3 != null){
+            //     $upload                   = Helper::avatarbase64($request->file3,'produk');
+            //     $produk->gambar3          = $upload['up'];
+            // }
+            // if($request->file4 != null){
+            //     $upload                   = Helper::avatarbase64($request->file4,'produk');
+            //     $produk->gambar4          = $upload['up'];
+            // }
+            // if($request->file5 != null){
+            //     $upload                   = Helper::avatarbase64($request->file4,'produk');
+            //     $produk->gambar5          = $upload['up'];
+            // }
 
                $produk->save();
             return response(['status' => true ,'text'    => 'has input'], 200);
@@ -153,27 +153,27 @@ class ProdukCmsController extends Controller
             $produk->berat              = $request->berat;
             $produk->keterangan         = $request->keterangan;
             // $produk->gambar1            = $upload;
-            if($request->file != null){
-                $upload                = Helper::avatarbase64($request->file,'produk');
-	           	$produk->gambar1	           = $upload['up'];
-                $produk->gambar_path           = $upload['path'];
-       		}
-            if($request->file2 != null){
-                $upload                   = Helper::avatarbase64($request->file2,'produk');
-                $produk->gambar2          = $upload['up'];
-            }
-            if($request->file3 != null){
-                $upload                   = Helper::avatarbase64($request->file3,'produk');
-                $produk->gambar3          = $upload['up'];
-            }
-            if($request->file4 != null){
-                $upload                   = Helper::avatarbase64($request->file4,'produk');
-                $produk->gambar4          = $upload['up'];
-            }
-            if($request->file5 != null){
-                $upload                   = Helper::avatarbase64($request->file4,'produk');
-                $produk->gambar5          = $upload['up'];
-            }
+            // if($request->file != null){
+            //     $upload                = Helper::avatarbase64($request->file,'produk');
+	        //    	$produk->gambar1	           = $upload['up'];
+            //     $produk->gambar_path           = $upload['path'];
+       		// }
+            // if($request->file2 != null){
+            //     $upload                   = Helper::avatarbase64($request->file2,'produk');
+            //     $produk->gambar2          = $upload['up'];
+            // }
+            // if($request->file3 != null){
+            //     $upload                   = Helper::avatarbase64($request->file3,'produk');
+            //     $produk->gambar3          = $upload['up'];
+            // }
+            // if($request->file4 != null){
+            //     $upload                   = Helper::avatarbase64($request->file4,'produk');
+            //     $produk->gambar4          = $upload['up'];
+            // }
+            // if($request->file5 != null){
+            //     $upload                   = Helper::avatarbase64($request->file4,'produk');
+            //     $produk->gambar5          = $upload['up'];
+            // }
             $produk->save();
             return response(['status' => true ,'text'    => 'has input'], 200);
         }

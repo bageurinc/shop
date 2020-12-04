@@ -15,6 +15,7 @@ class EcommerceServiceProvider extends ServiceProvider
     {
         // include __DIR__.'/routes/web.php';
         $this->app->make('Bageur\Ecommerce\ProdukCmsController');
+        $this->app->make('Bageur\Ecommerce\GambarProdukCmsController');
         $this->app->make('Bageur\Ecommerce\OrderCmsController');
         $this->app->make('Bageur\Ecommerce\KategoriController');
         $this->app->make('Bageur\Ecommerce\CartController');

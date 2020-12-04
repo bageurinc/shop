@@ -1,5 +1,5 @@
 <?php
-namespace Bageur\ecommerce\Processors;
+namespace Bageur\Ecommerce\Processors;
 
 class Helper {
 
