@@ -48,12 +48,6 @@ class Ecommerce extends Migration
             $table->text('keterangan');
             $table->json('variant')->nullable();
             $table->boolean('preorder')->default(false);
-            $table->text('gambar1');
-            $table->text('gambar2')->nullable();
-            $table->text('gambar3')->nullable();
-            $table->text('gambar4')->nullable();
-            $table->text('gambar5')->nullable();
-            $table->text('gambar_path');
             $table->string('status')->default('aktif');
             $table->timestamps();
             $table->softDeletes();
