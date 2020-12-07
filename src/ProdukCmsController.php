@@ -53,6 +53,7 @@ class ProdukCmsController extends Controller
             $produk->nama_seo           = Str::slug($request->nama);
             if(!empty($request->harga_jual)){
                 $produk->harga_jual          = $request->harga_jual;
+                $produk->stok                = $request->stok;
             }else{
                 $produk->variant        = json_encode($request->variant);
             }
@@ -144,6 +145,7 @@ class ProdukCmsController extends Controller
             $produk->nama_seo           = Str::slug($request->nama);
             if(!empty($request->harga_jual)){
                 $produk->harga_jual          = $request->harga_jual;
+                $produk->stok                = $request->stok;
             }else{
                 $produk->variant        = json_encode($request->variant);
             }
