@@ -13,7 +13,16 @@ class kategori extends Model
 
     public function getAvatarAttribute()
     {
-            return Helper::get($this->nama,$this->gambar,$this->gambar_path);
+      $gambar = \Bageur::avatar($this->nama,@$this->gambar,@$this->gambar_path);
+      return $gambar;
+    }
+    // public function produk()
+    // {
+    //   return $this->hasMany('Bageur\Ecommerce\model\produk','id_kategori','id')->with(['umkm','review']);
+    // }
+    public function sub()
+    {
+      return $this->hasMany('Bageur\Ecommerce\model\kategori','sub_id');
     }
     public function scopeDatatable($query,$request,$page=12)
     {

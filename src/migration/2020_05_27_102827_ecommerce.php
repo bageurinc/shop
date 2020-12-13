@@ -16,7 +16,7 @@ class Ecommerce extends Migration
     {
         Schema::create('bgr_kategori_produk', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_user')->index();
+            $table->unsignedBigInteger('sub_id')->index();
             $table->string('nama');
             $table->string('status')->default('aktif');
             $table->string('gambar')->nullable();
@@ -25,19 +25,10 @@ class Ecommerce extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('bgr_sub_kategori_produk', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_parent');
-            $table->string('nama');
-            $table->string('status')->default('aktif');
-            $table->timestamps();
-            $table->softDeletes();
-        });
 
         Schema::create('bgr_produk', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_kategori')->index();
-            $table->unsignedBigInteger('id_sub_kategori')->index();
             $table->unsignedBigInteger('umkm_id')->index();
             $table->string('nama');
             $table->text('nama_seo');
@@ -60,17 +51,7 @@ class Ecommerce extends Migration
             $table->enum('jenis_kelamin',['pria','wanita'])->after('email')->nullable();
             $table->softDeletes();
         });
-
-        $user = new User;
-        $user->id               = 1;
-        $user->name             = 'Ginanjar Maulana';
-        $user->email            = 'ginda@bageur.id';
-        $user->password         = Hash::make('123123');
-        $user->username         = 'sesaat';
-        $user->hp               = '085717133900';
-        $user->alamat           = 'jl pancasan baru';
-        $user->jenis_kelamin    = 'pria';
-        $user->save();
+     
     }
 
     /**
@@ -82,11 +63,5 @@ class Ecommerce extends Migration
     {
         Schema::dropIfExists('bgr_kategori_produk');
         Schema::dropIfExists('bgr_produk');
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('username');
-            $table->dropColumn('hp');
-            $table->dropColumn('alamat');
-            $table->dropColumn('jenis_kelamin');
-        });
     }
 }

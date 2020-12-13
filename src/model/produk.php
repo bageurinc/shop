@@ -4,16 +4,13 @@ namespace Bageur\ecommerce\model;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
-use Bageur\Ecommerce\Processors\Helper;
+// use Bageur\Ecommerce\Processors\Helper;
 
 class produk extends Model
 {
     protected $table    = 'bgr_produk';
     protected $appends  = ['bintang','avatar','data_harga','data_variant','data_preorder','publish'];
-    protected $hidden   = [
-        'id_user', 'harga', 'preorder','created_at','updated_at'
-    ];
-
+    protected $hidden   = ['id_user', 'harga', 'preorder','created_at','updated_at'];
 
     public function getPublishAttribute() {
         if (empty($this->created_at)) {
@@ -23,15 +20,13 @@ class produk extends Model
     }
     public function getAvatarAttribute()
     {
-            return Helper::get($this->nama,$this->gambar1,$this->gambar_path);
+      $find   = \Bageur\Ecommerce\model\gambar_produk::where('id_produk',$this->id)->first();
+      $gambar = \Bageur::avatar($this->nama,@$find->gambar,@$find->gambar_path);
+      return $gambar;
     }
     public function umkm()
     {
       return $this->belongsTo('App\model\umkm');
-    }
-    public function gambar() {
-
-        return $this->hasOne('Bageur\Ecommerce\model\gambar_produk','id_produk');
     }
     public function kategori()
     {
@@ -79,25 +74,14 @@ class produk extends Model
         return $this->harga;
        }
     }
+
     public function getDataVariantAttribute() {
        return json_decode($this->variant);
     }
     public function getDataPreorderAttribute() {
        return json_decode($this->preorder);
     }
-    public function getSatuGambarAttribute() {
-      return url('storage/bageur.id/produk/'.$this->gambar1);
-    }
-    // public function getDataGambarAttribute() {
-    //   $data = [];
-    //   array_push($data, url('storage/bageur.id/produk/'.$this->gambar1));
-    //   if(!empty($this->gambar2)){array_push($data, url('storage/bageur.id/produk/'.$this->gambar2));}
-    //   if(!empty($this->gambar3)){array_push($data, url('storage/bageur.id/produk/'.$this->gambar3));}
-    //   if(!empty($this->gambar4)){array_push($data, url('storage/bageur.id/produk/'.$this->gambar4));}
-    //   if(!empty($this->gambar5)){array_push($data, url('storage/bageur.id/produk/'.$this->gambar5));}
-    //   return $data;
-    // }
-
+    
     public function scopeData($query, $request){
         if($request->nama){
             $query->where('nama', 'like', '%'.$request->nama.'%');
@@ -150,6 +134,21 @@ class produk extends Model
         }else{
             return ['status' => 'error', 'text' => 'username tidak ada'];
         }
+    }
+    public function scopeCariKategori($query,$request){
+      if($request->id_kategori != null){
+       $query->where('bgr_produk.id_kategori',$request->id_kategori);
+      }
+    }
+    public function scopeCariKota($query,$request){
+        $kota = explode(',',$request->get('kota'));
+        $provinsi = explode(',',$request->get('provinsi'));
+        if($request->get('provinsi') != null  && $request->get('kota') == null){
+          $query->whereIn('umkm.id_provinsi',$provinsi);
+        } else if($request->get('kota') != null){
+          $query->whereIn('umkm.id_kota',$kota);
+        }
+
     }
     public function scopeDatatable($query,$request,$page=12)
     {
