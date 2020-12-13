@@ -31,7 +31,7 @@ class produk extends Model
     }
     public function gambar() {
 
-        return $this->hasMany('Bageur\Ecommerce\model\gambar_produk','id_produk');
+        return $this->hasOne('Bageur\Ecommerce\model\gambar_produk','id_produk');
     }
     public function kategori()
     {
