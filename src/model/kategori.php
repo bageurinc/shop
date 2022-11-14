@@ -3,7 +3,7 @@
 namespace Bageur\ecommerce\model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Bageur\Ecommerce\Processors\Helper;
+use Bageur\Ecommerce\processors\Helper;
 class kategori extends Model
 {
   use SoftDeletes;
