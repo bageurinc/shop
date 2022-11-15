@@ -47,7 +47,7 @@ class ProdukCmsController extends Controller
         }else{
             $produk              		= new produk;
             $produk->id_kategori        = $request->id_kategori;
-            $produk->id_sub_kategori    = $request->id_sub_kategori;
+            // $produk->id_sub_kategori    = $request->id_sub_kategori;
             $produk->umkm_id            = $request->umkm_id;
             $produk->nama               = $request->nama;
             $produk->nama_seo           = Str::slug($request->nama);
@@ -139,7 +139,7 @@ class ProdukCmsController extends Controller
         }else{
             $produk                     = produk::findOrFail($id);
             $produk->id_kategori        = $request->id_kategori;
-            $produk->id_sub_kategori    = $request->id_sub_kategori;
+            // $produk->id_sub_kategori    = $request->id_sub_kategori;
             $produk->umkm_id            = $request->umkm_id;
             $produk->nama               = $request->nama;
             $produk->nama_seo           = Str::slug($request->nama);

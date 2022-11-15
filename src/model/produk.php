@@ -34,7 +34,11 @@ class produk extends Model
     }
     public function review()
     {
-      return $this->hasMany('Bageur\Ecommerce\model\review');
+      return $this->hasMany('Bageur\Ecommerce\model\review','id_produk');
+    }
+    public function gambar()
+    {
+      return $this->hasMany('Bageur\Ecommerce\model\gambar_produk','id_produk','id');
     }
     public function getbintangAttribute()
     {
@@ -81,7 +85,7 @@ class produk extends Model
     public function getDataPreorderAttribute() {
        return json_decode($this->preorder);
     }
-    
+
     public function scopeData($query, $request){
         if($request->nama){
             $query->where('nama', 'like', '%'.$request->nama.'%');

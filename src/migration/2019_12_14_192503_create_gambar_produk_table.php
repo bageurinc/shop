@@ -14,8 +14,9 @@ class CreateGambarProdukTable extends Migration
     {
         Schema::create('bgr_ecommerce_gambar_produk', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('produk_id')->index();
+            $table->unsignedBigInteger('id_produk')->index();
             $table->string('gambar');
+            $table->string('gambar_path')->nullable();
             $table->string('status')->default('aktif');
             $table->timestamps();
             $table->softDeletes();

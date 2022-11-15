@@ -16,7 +16,7 @@ class Ecommerce extends Migration
     {
         Schema::create('bgr_kategori_produk', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('sub_id')->index();
+            $table->unsignedBigInteger('sub_id')->nullable()->index();
             $table->string('nama');
             $table->string('status')->default('aktif');
             $table->string('gambar')->nullable();
@@ -51,7 +51,7 @@ class Ecommerce extends Migration
             $table->enum('jenis_kelamin',['pria','wanita'])->after('email')->nullable();
             $table->softDeletes();
         });
-     
+
     }
 
     /**

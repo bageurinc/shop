@@ -21,8 +21,7 @@ class CreateKotasTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        // DB::unprepared(file_get_contents(__DIR__.'/migration/db/kotas.sql'));
+        DB::unprepared(file_get_contents(__DIR__.'/db/bgr_kotas.sql'));
     }
 
     /**

@@ -18,6 +18,7 @@ class CreateProvinsisTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        DB::unprepared(file_get_contents(__DIR__.'/db/bgr_provinsis.sql'));
 
         // $provinsi        = base_path('db/provinsis.sql');
         // DB::unprepared(file_get_contents(__DIR__.'/migration/db/provinsis.sql'));

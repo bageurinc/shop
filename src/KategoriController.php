@@ -46,7 +46,7 @@ class KategoriController extends Controller
             return response(['status' => false ,'error'    =>  $errors->all()], 200);
         }else{
         $kategori =  new kategori;
-        $kategori->id_user   = Auth::id();
+        // $kategori->id_user   = Auth::id();
         $kategori->nama      = $request->nama;
         $kategori->status    = $request->status;
         if($request->file != null){
