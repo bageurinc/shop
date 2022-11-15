@@ -26,7 +26,7 @@ class produk extends Model
     }
     public function umkm()
     {
-      return $this->belongsTo('App\model\umkm');
+      return $this->belongsTo('App\Model\umkm');
     }
     public function kategori()
     {
